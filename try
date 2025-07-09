@@ -1,0 +1,54 @@
+.cake.cut .layer-1,
+.cake.cut .layer-2,
+.cake.cut .layer-3 {
+    animation: splitLayer 1s forwards;
+}
+
+@keyframes splitLayer {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-30px); }
+}
+
+.cake.cut::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 4px;
+    height: 100%;
+    background: white;
+    transform: translateX(-50%);
+    animation: flash 0.3s ease-out;
+}
+
+@keyframes flash {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+  document.querySelector('.cake').classList.add('cut');
+function startCelebration() {
+    if (isClicked) return;
+    isClicked = true;
+
+    document.querySelector('.cake').classList.add('cut'); // 🔥 Add this line
+
+    gsap.to(candle, {
+        opacity: 0,
+        y: -20,
+        duration: 1,
+        ease: "power2.out",
+        onComplete: () => candle.remove()
+    });
+
+    const ribbonInterval = setInterval(() => {
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => createRibbon(), i * 100);
+        }
+    }, 200);
+
+    setTimeout(() => {
+        document.querySelector('.next-page-button').classList.add('show');
+    }, 2000);
+
+    setTimeout(() => clearInterval(ribbonInterval), 5000);
+}
